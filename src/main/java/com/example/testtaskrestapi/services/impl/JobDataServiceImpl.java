@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class JobDataServiceImpl implements JobDataService {
 
@@ -33,5 +35,10 @@ public class JobDataServiceImpl implements JobDataService {
     public List<JobData> getPage(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(pageable).getContent();
+    }
+
+    @Override
+    public Optional<JobData> findBySlug(String slug) {
+        return repository.findBySlug(slug);
     }
 }

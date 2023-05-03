@@ -42,50 +42,47 @@ public class StartupListener {
         extracted();
     }
 
-    @Scheduled(fixedDelay = 10000) // Інтервал виконання у мілісекундах
-    public void runTask() {
-        // Виконати операції тут
+    @Scheduled(fixedDelay = 60000) // Інтервал виконання у мілісекундах
+    public void runTask() throws JsonProcessingException {
+        extracted();
     }
 
     private void extracted() throws JsonProcessingException {
         String url = "https://www.arbeitnow.com/api/job-board-api";
-        String response = restTemplate.getForObject(url, String.class);
         ObjectMapper mapper = new ObjectMapper();
-        for (int i = 0; i < 5; i++) {
+        for (int c = 0; c < 5; c++) {
+            String response = restTemplate.getForObject(url, String.class);
+            JsonNode jsonNode = mapper.readTree(response);
 
-        }
-        JsonNode jsonNode = mapper.readTree(response);
+            JsonNode data = jsonNode.get("data");
+            for (int i = 0; i < data.size(); i++) {
+                String slug = data.get(i).get("slug").asText();
+                if (jobDataService.findBySlug(slug).isPresent()) continue;
+                String company_name = data.get(i).get("company_name").asText();
+                String title = data.get(i).get("title").asText();
+                String description = data.get(i).get("description").asText().replaceAll("\n", "");
+                boolean remote = data.get(i).get("remote").asBoolean();
+                String jobUrl = data.get(i).get("url").asText();
+                JsonNode tags = data.get(i).get("tags");
+                List<Tag> tagList = new ArrayList<>();
+                for (int i1 = 0; i1 < tags.size(); i1++) {
+                    tagList.add(tagService.add(new Tag(tags.get(i1).asText())));
+                }
+                JsonNode job_types = data.get(i).get("job_types");
+                List<JobTypes> jobTypesList = new ArrayList<>();
+                for (int i1 = 0; i1 < job_types.size(); i1++) {
+                    jobTypesList.add(jobTypesService.add(new JobTypes(job_types.get(i1).asText())));
+                }
+                String location = data.get(i).get("location").asText();
+                long created_at = data.get(i).get("created_at").asLong();
+                LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(created_at, 0, ZoneOffset.UTC);
 
-        JsonNode data = jsonNode.get("data");
-        for (int i = 0; i < data.size(); i++) {
-            String slug = data.get(i).get("slug").asText();
-            String company_name = data.get(i).get("company_name").asText();
-            String title = data.get(i).get("title").asText();
-            String description = data.get(i).get("description").asText().replaceAll("\n", "");
-            boolean remote = data.get(i).get("remote").asBoolean();
-            String jobUrl = data.get(i).get("url").asText();
+                JobData jobData = new JobData(slug, company_name, title, description, remote, jobUrl, tagList, jobTypesList, location, localDateTime);
 
-
-            JsonNode tags = data.get(i).get("tags");
-            List<Tag> tagList = new ArrayList<>();
-            for (int i1 = 0; i1 < tags.size(); i1++) {
-                tagList.add(tagService.add(new Tag(tags.get(i1).asText())));
+                jobDataService.add(jobData);
             }
+            url = jsonNode.get("links").get("next").asText();
 
-
-            JsonNode job_types = data.get(i).get("job_types");
-            List<JobTypes> jobTypesList = new ArrayList<>();
-            for (int i1 = 0; i1 < job_types.size(); i1++) {
-                jobTypesList.add(jobTypesService.add(new JobTypes(job_types.get(i1).asText())));
-            }
-
-            String location = data.get(i).get("location").asText();
-            long created_at = data.get(i).get("created_at").asLong();
-            LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(created_at, 0, ZoneOffset.UTC);
-
-            JobData jobData = new JobData(slug, company_name, title, description, remote, jobUrl, tagList, jobTypesList, location, localDateTime);
-
-            jobDataService.add(jobData);
         }
     }
 }
