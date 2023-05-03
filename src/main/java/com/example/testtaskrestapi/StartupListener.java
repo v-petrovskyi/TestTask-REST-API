@@ -12,8 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -49,37 +47,23 @@ public class StartupListener {
         // Виконати операції тут
     }
 
-//    @EventListener
-//    public void getDataFromApi(ContextRefreshedEvent event) throws JsonProcessingException {
-//        extracted();
-//
-//    }
-
     private void extracted() throws JsonProcessingException {
         String url = "https://www.arbeitnow.com/api/job-board-api";
         String response = restTemplate.getForObject(url, String.class);
-//        System.out.println(response);
         ObjectMapper mapper = new ObjectMapper();
         for (int i = 0; i < 5; i++) {
-            
+
         }
         JsonNode jsonNode = mapper.readTree(response);
 
         JsonNode data = jsonNode.get("data");
         for (int i = 0; i < data.size(); i++) {
-//        for (int i = 0; i < 1; i++) {
             String slug = data.get(i).get("slug").asText();
-//            System.out.println(slug);
             String company_name = data.get(i).get("company_name").asText();
-//            System.out.println(company_name);
             String title = data.get(i).get("title").asText();
-//            System.out.println(title);
             String description = data.get(i).get("description").asText().replaceAll("\n", "");
-//            System.out.println(description);
             boolean remote = data.get(i).get("remote").asBoolean();
-//            System.out.println(remote);
             String jobUrl = data.get(i).get("url").asText();
-//            System.out.println(jobUrl);
 
 
             JsonNode tags = data.get(i).get("tags");
@@ -87,9 +71,6 @@ public class StartupListener {
             for (int i1 = 0; i1 < tags.size(); i1++) {
                 tagList.add(tagService.add(new Tag(tags.get(i1).asText())));
             }
-//            System.out.println("------------------------------------");
-//            System.out.println(tagList);
-//            System.out.println("------------------------------------");
 
 
             JsonNode job_types = data.get(i).get("job_types");
@@ -98,21 +79,13 @@ public class StartupListener {
                 jobTypesList.add(jobTypesService.add(new JobTypes(job_types.get(i1).asText())));
             }
 
-//            System.out.println("------------------------------------");
-//            System.out.println(jobTypesList);
-//            System.out.println("------------------------------------");
-
             String location = data.get(i).get("location").asText();
-//            System.out.println(location);
             long created_at = data.get(i).get("created_at").asLong();
             LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(created_at, 0, ZoneOffset.UTC);
-//            System.out.println(localDateTime);
 
             JobData jobData = new JobData(slug, company_name, title, description, remote, jobUrl, tagList, jobTypesList, location, localDateTime);
 
             jobDataService.add(jobData);
-
         }
-//        System.out.println(jobDataService.getAll());
     }
 }

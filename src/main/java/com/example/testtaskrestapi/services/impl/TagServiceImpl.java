@@ -20,11 +20,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag add(Tag tag) {
-//        try{
-//            return repository.save(tag);
-//        } catch (Exception e){
-//            return getByTag(tag).get();
-//        }
         return getByTag(tag).orElseGet(()->repository.save(tag));
     }
 

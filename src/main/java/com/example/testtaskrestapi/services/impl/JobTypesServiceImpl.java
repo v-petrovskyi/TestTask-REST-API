@@ -21,11 +21,6 @@ public class JobTypesServiceImpl implements JobTypesService {
 
     @Override
     public JobTypes add(JobTypes jobData) {
-//        try{
-//            return repository.save(jobData);
-//        } catch (Exception e){
-//            return getByJobTypes(jobData).orElseGet(()->repository.save(jobData));
-//        }
         return getByJobTypes(jobData).orElseGet(()->repository.save(jobData));
     }
 

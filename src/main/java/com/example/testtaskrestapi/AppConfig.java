@@ -13,9 +13,4 @@ public class AppConfig {
     RestTemplateBuilder restTemplateBuilder(){
         return new RestTemplateBuilder();
     }
-
-//    @Bean
-//    StartupListener startupListener(){
-//        return new StartupListener()
-//    }
 }
