@@ -26,7 +26,7 @@ public class JobDataServiceImpl implements JobDataService {
 
     @Override
     public List<JobData> getAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override

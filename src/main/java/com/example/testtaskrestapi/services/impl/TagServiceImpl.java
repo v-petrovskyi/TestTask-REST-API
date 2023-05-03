@@ -6,6 +6,8 @@ import com.example.testtaskrestapi.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TagServiceImpl implements TagService {
 
@@ -18,6 +20,16 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag add(Tag tag) {
-        return repository.save(tag);
+//        try{
+//            return repository.save(tag);
+//        } catch (Exception e){
+//            return getByTag(tag).get();
+//        }
+        return getByTag(tag).orElseGet(()->repository.save(tag));
+    }
+
+    @Override
+    public Optional<Tag> getByTag(Tag tag) {
+        return repository.findTagByTag(tag.getTag());
     }
 }

@@ -25,15 +25,14 @@ public class JobData {
     private String company_name;
     private String title;
     @Column(columnDefinition = "text")
+    @ToString.Exclude
     private String description;
     private boolean remote;
     @Column(unique = true)
     private String url;
-    @OneToMany
-    @Cascade(CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
-    @OneToMany
-    @Cascade(CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<JobTypes> job_types;
     private String location;
     private LocalDateTime created_at;
