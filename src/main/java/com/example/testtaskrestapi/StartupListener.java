@@ -71,7 +71,7 @@ public class StartupListener {
                 JsonNode job_types = data.get(i).get("job_types");
                 List<JobTypes> jobTypesList = new ArrayList<>();
                 for (int i1 = 0; i1 < job_types.size(); i1++) {
-                    jobTypesList.add(jobTypesService.add(new JobTypes(job_types.get(i1).asText())));
+                    jobTypesList.add(jobTypesService.saveOrUpdate(new JobTypes(job_types.get(i1).asText())));
                 }
                 String location = data.get(i).get("location").asText();
                 long created_at = data.get(i).get("created_at").asLong();

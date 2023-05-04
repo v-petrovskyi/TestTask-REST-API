@@ -20,7 +20,7 @@ public class JobTypesServiceImpl implements JobTypesService {
     }
 
     @Override
-    public JobTypes add(JobTypes jobData) {
+    public JobTypes saveOrUpdate(JobTypes jobData) {
         return getByJobTypes(jobData).orElseGet(()->repository.save(jobData));
     }
 

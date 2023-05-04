@@ -5,6 +5,6 @@ import com.example.testtaskrestapi.entity.JobTypes;
 import java.util.Optional;
 
 public interface JobTypesService {
-    JobTypes add(JobTypes jobData);
+    JobTypes saveOrUpdate(JobTypes jobData);
     Optional<JobTypes> getByJobTypes(JobTypes jobData);
 }
