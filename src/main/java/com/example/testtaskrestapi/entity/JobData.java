@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -45,5 +46,18 @@ public class JobData {
         this.jobTypes = jobTypes;
         this.location = location;
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JobData jobData = (JobData) o;
+        return id == jobData.id && remote == jobData.remote && Objects.equals(slug, jobData.slug) && Objects.equals(companyName, jobData.companyName) && Objects.equals(title, jobData.title) && Objects.equals(description, jobData.description) && Objects.equals(url, jobData.url) && Objects.equals(tags, jobData.tags) && Objects.equals(jobTypes, jobData.jobTypes) && Objects.equals(location, jobData.location) && Objects.equals(createdAt, jobData.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, slug, companyName, title, description, remote, url, tags, jobTypes, location, createdAt);
     }
 }
