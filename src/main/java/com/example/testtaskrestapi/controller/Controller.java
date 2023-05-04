@@ -26,11 +26,11 @@ public class Controller {
     }
 
     @GetMapping("/home")
-    public List<JobData> returnPage(
+    public ResponseEntity<List<JobData>> returnPage(
             @RequestParam(name = "page", required = false) Optional<Integer> page,
             @RequestParam(name = "size", required = false) Optional<Integer> size,
             @RequestParam(name = "sort", required = false) Optional<String> sort) {
-        return jobDataService.getPage(page.orElse(1), size.orElse(10), sort.orElse("id"));
+        return ResponseEntity.ok(jobDataService.getPage(page.orElse(1), size.orElse(10), sort.orElse("id")));
     }
 
     @GetMapping("/grouped")
