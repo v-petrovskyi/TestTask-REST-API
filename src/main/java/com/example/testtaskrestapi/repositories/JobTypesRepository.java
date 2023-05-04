@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface JobTypesRepository extends JpaRepository<JobTypes, String> {
+public interface JobTypesRepository extends JpaRepository<JobTypes, Long> {
     Optional<JobTypes> findByJobType(String jobType);
 }

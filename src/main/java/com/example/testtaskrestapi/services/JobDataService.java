@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface JobDataService {
     JobData add(JobData jobData);
     List<JobData> getAll();
-    List<JobData> getPage(int page, int size);
+    List<JobData> getPage(int page, int size, String sort);
     Optional<JobData> findBySlug(String slug);
 }

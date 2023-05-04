@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +20,7 @@ public class JobData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String slug;
-    private String company_name;
+    private String companyName;
     private String title;
     @Column(columnDefinition = "text")
     @ToString.Exclude
@@ -33,20 +31,20 @@ public class JobData {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<JobTypes> job_types;
+    private List<JobTypes> jobTypes;
     private String location;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    public JobData(String slug, String company_name, String title, String description, boolean remote, String url, List<Tag> tags, List<JobTypes> job_types, String location, LocalDateTime created_at) {
+    public JobData(String slug, String companyName, String title, String description, boolean remote, String url, List<Tag> tags, List<JobTypes> jobTypes, String location, LocalDateTime createdAt) {
         this.slug = slug;
-        this.company_name = company_name;
+        this.companyName = companyName;
         this.title = title;
         this.description = description;
         this.remote = remote;
         this.url = url;
         this.tags = tags;
-        this.job_types = job_types;
+        this.jobTypes = jobTypes;
         this.location = location;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 }

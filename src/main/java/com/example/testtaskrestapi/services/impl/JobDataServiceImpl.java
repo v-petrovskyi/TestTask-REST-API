@@ -6,6 +6,7 @@ import com.example.testtaskrestapi.services.JobDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +33,15 @@ public class JobDataServiceImpl implements JobDataService {
     }
 
     @Override
-    public List<JobData> getPage(int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
+    public List<JobData> getPage(int page, int size, String input) {
+        String[] strings = input.split(",");
+        Sort sort;
+        try {
+            sort = Sort.by(Sort.Direction.fromString(strings[1]), strings[0]);
+        } catch (IndexOutOfBoundsException e) {
+            sort = Sort.by(Sort.Direction.ASC, strings[0]);
+        }
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
         return repository.findAll(pageable).getContent();
     }
 
