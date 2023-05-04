@@ -36,7 +36,7 @@ public class Controller {
     public ResponseEntity<List<GroupedResult>> getGroupedEntities() {
         List<Object[]> results = jobDataService.groupByLocation();
         List<GroupedResult> groupedResults = results.stream()
-                .map(r -> new GroupedResult((String) r[0], (Long) r[1]))
+                .map(r -> new GroupedResult((String) r[0], (long) r[1]))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(groupedResults);
     }
@@ -47,9 +47,9 @@ public class Controller {
     @ToString
     private static class GroupedResult {
         private String location;
-        private Long count;
+        private long count;
 
-        public GroupedResult(String location, Long count) {
+        public GroupedResult(String location, long count) {
             this.location = location;
             this.count = count;
         }
