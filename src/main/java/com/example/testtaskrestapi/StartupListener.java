@@ -66,7 +66,7 @@ public class StartupListener {
                 JsonNode tags = data.get(i).get("tags");
                 List<Tag> tagList = new ArrayList<>();
                 for (int i1 = 0; i1 < tags.size(); i1++) {
-                    tagList.add(tagService.add(new Tag(tags.get(i1).asText())));
+                    tagList.add(tagService.saveOrUpdate(new Tag(tags.get(i1).asText())));
                 }
                 JsonNode job_types = data.get(i).get("job_types");
                 List<JobTypes> jobTypesList = new ArrayList<>();

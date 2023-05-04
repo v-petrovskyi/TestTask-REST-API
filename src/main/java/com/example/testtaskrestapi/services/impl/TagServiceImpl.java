@@ -19,7 +19,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag add(Tag tag) {
+    public Tag saveOrUpdate(Tag tag) {
         return getByTag(tag).orElseGet(()->repository.save(tag));
     }
 
