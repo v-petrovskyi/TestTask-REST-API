@@ -15,6 +15,7 @@ import java.util.List;
 @ToString
 
 @Entity
+@Table(name = "jobData")
 public class JobData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

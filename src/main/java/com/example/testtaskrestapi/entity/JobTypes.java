@@ -12,6 +12,7 @@ import lombok.ToString;
 @ToString
 
 @Entity
+@Table(name = "jobTypes")
 public class JobTypes {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
