@@ -39,15 +39,15 @@ public class StartupListener {
 
     @PostConstruct
     public void init() throws JsonProcessingException {
-        extracted();
+        getDataFromApi();
     }
 
     @Scheduled(fixedDelay = 60000)
     public void runTask() throws JsonProcessingException {
-        extracted();
+        getDataFromApi();
     }
 
-    private void extracted() throws JsonProcessingException {
+    private void getDataFromApi() throws JsonProcessingException {
         String url = "https://www.arbeitnow.com/api/job-board-api";
         ObjectMapper mapper = new ObjectMapper();
         for (int c = 0; c < 5; c++) {
