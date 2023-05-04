@@ -36,7 +36,7 @@ class JobTypesServiceImplTest {
     @Test
     void test_getByJobTypes() {
         Optional<JobTypes> expected = Optional.of(new JobTypes(1,"some job"));
-        given(jobTypesRepository.findByJobType("tag")).willReturn(Optional.of(new JobTypes(1,"some job")));
+        given(jobTypesRepository.findByJobType("some job")).willReturn(Optional.of(new JobTypes(1,"some job")));
         Optional<JobTypes> actual = jobTypesService.getByJobTypes(new JobTypes(0,"some job"));
 
         Assertions.assertEquals(expected, actual);
