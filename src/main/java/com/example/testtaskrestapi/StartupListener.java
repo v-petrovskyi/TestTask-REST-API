@@ -42,7 +42,7 @@ public class StartupListener {
         extracted();
     }
 
-    @Scheduled(fixedDelay = 60000) // Інтервал виконання у мілісекундах
+    @Scheduled(fixedDelay = 60000)
     public void runTask() throws JsonProcessingException {
         extracted();
     }
