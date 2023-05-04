@@ -10,4 +10,5 @@ public interface JobDataService {
     List<JobData> getAll();
     List<JobData> getPage(int page, int size, String sort);
     Optional<JobData> findBySlug(String slug);
+    List<Object[]>groupByLocation();
 }

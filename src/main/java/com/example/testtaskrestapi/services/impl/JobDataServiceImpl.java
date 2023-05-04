@@ -49,4 +49,9 @@ public class JobDataServiceImpl implements JobDataService {
     public Optional<JobData> findBySlug(String slug) {
         return repository.findBySlug(slug);
     }
+
+    @Override
+    public List<Object[]> groupByLocation() {
+        return repository.groupByLocation();
+    }
 }
