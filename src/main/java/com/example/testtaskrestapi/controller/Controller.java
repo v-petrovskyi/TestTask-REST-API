@@ -1,16 +1,17 @@
 package com.example.testtaskrestapi.controller;
 
 import com.example.testtaskrestapi.entity.JobData;
+import com.example.testtaskrestapi.exeptions.ErrorResponse;
 import com.example.testtaskrestapi.services.JobDataService;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.example.testtaskrestapi.util.GroupedResult;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,17 +42,11 @@ public class Controller {
         return ResponseEntity.ok(groupedResults);
     }
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @ToString
-    private static class GroupedResult {
-        private String location;
-        private long count;
-
-        public GroupedResult(String location, long count) {
-            this.location = location;
-            this.count = count;
-        }
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(Exception e) {
+        ErrorResponse response = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+
 }
